@@ -15,7 +15,18 @@ As a user:
 * I would like to see random quotes on the site
 * I would like to sign in to the blog.
 *  I would also like to create a blog from the application.
+# Live Link
 
+# Technology used
 
+# Setup Installation
+
+# Known Bugs
+they are no bugs
+
+# Contact Information
+Any feedback contact this email  sumeyahassan34@gmail.com
+
+# LICENCE
 
 
