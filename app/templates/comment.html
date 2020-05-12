@@ -1,0 +1,10 @@
+
+{% macro displayBlog (all_blogs) %}
+{% for blog in all_blogs %}
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.content}}</p>
+    <p></p>{{blog.user.username}}
+{% endfor %}
+
+{% endmacro %}
+
