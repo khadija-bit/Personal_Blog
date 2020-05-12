@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .forms import UpdateProfile,BlogForm,CommentForm
 from flask_login import login_required,current_user
-from ..models import User,Blog,Quotes,Subscirbe
+from ..models import User,Blog,Quotes,Subscirbe,Comment
 from .. import db,photos
 from ..requests import getQuotes
 
@@ -34,6 +34,30 @@ def new_blog():
         return redirect(url_for('.index'))
     title = 'Add a blog'    
     return render_template('new_post.html',title= title, BlogForm= form )
+
+@main.route('/comment/<int:blog_id>',methods=['GET','POST'])
+@login_required
+def Comment(blog_id):
+    current_blog = Blog.query.filter_by(id = blog_id).first()
+    if request.method == "POST":
+        comment = request.form.get('comment')
+        new_comment = Comment(comment = comment,user= current_user,blog = current_blog)
+        db.session.add(new_comment)
+        db.session.commit()
+    comments = Comment.get_omments(blog_id)
+    title = 'comment'
+    return render_template('comment.html',title= title,comments = comments)
+
+
+@main.route('/newblog',methods=['GET','POST'])
+@login_required
+def Delete_blog(blog_id):
+    current_blog = Blog.query,filter_by(id = blog_id).first()
+    if current_blog.user != current_user:
+        abort(403)
+    db.session.delete(current_blog)    
+    db.session.commit()
+    return redirect(url_for('.index'))
 
 
 @main.route('/user/<uname>')
