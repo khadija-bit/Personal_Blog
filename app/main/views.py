@@ -1,8 +1,10 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from flask_login import login_required
+from .forms import UpdateProfile,BlogForm,CommentForm
+from flask_login import login_required,current_user
 from ..models import User,Blog,Quotes,Subscirbe
 from .. import db,photos
+from ..requests import getQuotes
 
 # Views
 @main.route('/')
@@ -11,10 +13,11 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    
+    quotes = getQuotes()
+    blogs = Blog.query.all()
     title = 'Welcome to the blog'
     
-    return render_template('index.html',title = title )
+    return render_template('index.html',title = title,quotes = quotes,blogs = blogs )
 
 
 @main.route('/newblog',methods=['GET','POST'])
@@ -22,8 +25,15 @@ def index():
 def new_blog():
     '''
     '''
-    # form = 
-    return render_template('new_post.html')
+    form = BlogForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        new_blog = Blog(title = title,content= content,user = current_user)
+        new_blog.save_blog()
+        return redirect(url_for('.index'))
+    title = 'Add a blog'    
+    return render_template('new_post.html',title= title, BlogForm= form )
 
 
 @main.route('/user/<uname>')
