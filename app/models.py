@@ -98,22 +98,7 @@ class Comment(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"Comment:( {self.id})"   
-
-class Subscirbe(db.Model):
-    id = db.Column(db.Integer,primary_key = True)
-    email = db.Column(db.String())
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def __repr__(self):
-        return f"Comment: {self.email}"       
+        return f"Comment:( {self.id})"      
 
 
 class Quotes:
