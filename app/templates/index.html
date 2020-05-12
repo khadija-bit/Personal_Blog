@@ -8,8 +8,19 @@
 {% endblock %}
 
 {% block content%}
-<h1 style="font-family: 'Satisfy', cursive;">Welcome to Personal Blog</h1>
-<p>{{quotes.quote}}</p>
-<p>{{quotes.author}}</p>
+<div class="landingpage">
+    <div class="container-fluid">
+        <div class="text">
+            <h1 style="font-family: 'Satisfy', cursive;">Welcome to Personal Blog</h1>
+            <p>{{quotes.quote}}</p>
+            <p>{{quotes.author}}</p>
+            <a href="{{url_for('main.new_blog')}}" class="btn btn-primary">Add post</a> 
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
 

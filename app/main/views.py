@@ -23,17 +23,18 @@ def index():
 @main.route('/newblog',methods=['GET','POST'])
 @login_required
 def new_blog():
-    '''
-    '''
+    
     form = BlogForm()
     if form.validate_on_submit():
+        # blog = form.blog.data
         title = form.title.data
         content = form.content.data
         new_blog = Blog(title = title,content= content,user = current_user)
-        new_blog.save_blog()
+        db.session.add(new_blog)    
+        db.session.commit()
         return redirect(url_for('.index'))
     title = 'Add a blog'    
-    return render_template('new_post.html',title= title, BlogForm= form )
+    return render_template('new_post.html',title= title, blogform= form )
 
 @main.route('/comment/<int:blog_id>',methods=['GET','POST'])
 @login_required
