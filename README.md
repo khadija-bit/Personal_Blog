@@ -1,4 +1,4 @@
-# ASP BLOG
+# Personal Blog
 
 # Author
 Khadija Hassan
@@ -49,7 +49,7 @@ https://github.com/khadija-bit/Personal_Blog.git
 Gunicorn installation 
 ```bash
 $ python3 -m pip install gunicorn
- 
+
 or
 
 $ pip install gunicorn
