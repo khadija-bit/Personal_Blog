@@ -18,7 +18,13 @@
              {% for blog in blogs %}
              <h2>{{blog.title}}</h2>
              <p>{{blog.content}}</p>
+                {{blog.posted}}
               <p><strong>posted by: {{blog.user.username}}</strong></p>
+              {% endfor %}
+              <a href="{{url_for('main.Comment',blog_id=blogs.id)}}" class="btn btn-info">Comment</a>
+              {% for comment in comments %}
+              <p>{{comment.user.username}}</p>
+              <p>{{comment.comment}}</p>
               {% endfor %}
         </div>
 

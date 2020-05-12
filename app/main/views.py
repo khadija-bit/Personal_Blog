@@ -17,7 +17,7 @@ def index():
     blogs = Blog.query.all()
     title = 'Welcome to the blog'
     
-    return render_template('index.html',title = title,quotes = quotes,blogs = blogs )
+    return render_template('index.html',title = title,quotes = quotes,blogs = blogs,current_user= current_user )
 
 
 @main.route('/newblog',methods=['GET','POST'])
@@ -39,15 +39,17 @@ def new_blog():
 @main.route('/comment/<int:blog_id>',methods=['GET','POST'])
 @login_required
 def Comment(blog_id):
+    form = CommentForm()
     current_blog = Blog.query.filter_by(id = blog_id).first()
     if request.method == "POST":
         comment = request.form.get('comment')
         new_comment = Comment(comment = comment,user= current_user,blog = current_blog)
         db.session.add(new_comment)
         db.session.commit()
+    blog = Blog.query_or_404(blog_id)
     comments = Comment.get_omments(blog_id)
     title = 'comment'
-    return render_template('comment.html',title= title,comments = comments)
+    return render_template('comment.html',title= title,comments = comments,form=form)
 
 
 @main.route('/newblog',methods=['GET','POST'])

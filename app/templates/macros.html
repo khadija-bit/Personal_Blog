@@ -1,10 +1,16 @@
 {% block content %}
-{% macro displayBlog (all_blogs) %}
-{% for blog in all_blogs %}
-    <h2>{{blog.title}}</h2>
-    <p>{{blog.content}}</p>
-    <p></p>{{blog.user.username}}
-    {% endfor %}
+{% macro displayBlog (blogs) %}
+{% for blog in blogs %}
+<div class="panel panel-default">
+    <div class="panel-body">
+
+    </div>
+</div>
+<h2>{{blog.title}}</h2>
+<p>{{blog.content}}</p>
+   {{blog.posted}}
+ <p><strong>posted by: {{blog.user.username}}</strong></p>
+ {% endfor %}
 
 {% endmacro %}
 {% endblock %}
