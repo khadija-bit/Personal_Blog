@@ -64,7 +64,11 @@ class Blog(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
+    
+    @classmethod
+    def get_blogs(cls,blog_id):
+        blog = Blog.query.filter_by(blog_id = blog_id).all()
+        return blog
 
     def __repr__(self):
         return f'Blog {self.title}, Date it was posted: {self.posted}, content: {self.content}'
@@ -74,10 +78,9 @@ class Comment(db.Model):
     __tablename__ = 'comments'
     
     id = db.Column(db.Integer,primary_key = True)
-    
+    comment = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'), nullable=False)
     blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'), nullable=False)
-    comment = db.Column(db.String(255), nullable=False)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
 
 
@@ -95,7 +98,7 @@ class Comment(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"Comment:( {self.comment},'{self.posted}')"   
+        return f"Comment:( {self.id})"   
 
 class Subscirbe(db.Model):
     id = db.Column(db.Integer,primary_key = True)

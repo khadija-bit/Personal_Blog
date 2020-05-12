@@ -6,7 +6,7 @@ from ..models import User,Blog,Quotes,Subscirbe,Comment
 from .. import db,photos
 from ..requests import getQuotes
 
-# Views
+
 @main.route('/')
 def index():
 
@@ -36,31 +36,44 @@ def new_blog():
     title = 'Add a blog'    
     return render_template('new_post.html',title= title, blogform= form )
 
+
+
 @main.route('/comment/<int:blog_id>',methods=['GET','POST'])
 @login_required
-def Comment(blog_id):
+def new_comment(blog_id):
     form = CommentForm()
-    current_blog = Blog.query.filter_by(id = blog_id).first()
-    if request.method == "POST":
-        comment = request.form.get('comment')
-        new_comment = Comment(comment = comment,user= current_user,blog = current_blog)
-        db.session.add(new_comment)
-        db.session.commit()
-    blog = Blog.query_or_404(blog_id)
-    comments = Comment.get_omments(blog_id)
-    title = 'comment'
-    return render_template('comment.html',title= title,comments = comments,form=form)
+    blog = Blog.query.filter_by(id=blog_id).first()
+    if form.validate_on_submit():
+        comment = form.comment.data
+        blog_id = blog_id
+        new_comment = Comment(comment=comment,blog_id=blog_id,user_id = current_user.id)
+        new_comment.save()
+        return redirect(url_for('main.new_comment',blog_id=blog_id))
+    comments = Comment.query.filter_by(blog_id=blog_id).all()    
+    return render_template('comment.html',form=form,blog=blog,comments=comments)    
+
+  
+
+@main.route('/comment/',methods=['GET','POST'])
+@login_required
+def Delete_comment(blog_id):
+    form = CommentForm()
+    get_comments = Comment.query,filter_by(id = blog_id).first()
+    
+    db.session.delete(get_comment)    
+    db.session.commit()
+    return redirect(url_for('.index',form = form,blog = get_comments.blog_id))
 
 
 @main.route('/newblog',methods=['GET','POST'])
 @login_required
 def Delete_blog(blog_id):
-    current_blog = Blog.query,filter_by(id = blog_id).first()
-    if current_blog.user != current_user:
-        abort(403)
-    db.session.delete(current_blog)    
+    form = BlogForm()
+    get_blogs = Blog.query,filter_by(id = blog_id).first()
+    
+    db.session.delete(get_comment)    
     db.session.commit()
-    return redirect(url_for('.index'))
+    return redirect(url_for('.index',form = form,blog = get_blogs))
 
 
 @main.route('/user/<uname>')
