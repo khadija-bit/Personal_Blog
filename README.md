@@ -16,6 +16,7 @@ As a user:
 * I would like to sign in to the blog.
 *  I would also like to create a blog from the application.
 # Live Link
+https://blogz.herokuapp.com/
 
 # Technology used
 * Python3.6
